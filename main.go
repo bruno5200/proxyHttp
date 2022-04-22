@@ -2,9 +2,9 @@ package main
 
 import (
 "log"
-"fmt"
+// "fmt"
 "net"
-"os"
+// "os"
 "io"
 )
 
@@ -32,7 +32,7 @@ func Connect() {
 	}
 }
 
-fun proxy() {
+func proxy(conn net.Conn) {
 	defer conn.Close()
 
 	remoteconnection, err := net.Dial("tcp", "site.net:443")
@@ -47,18 +47,18 @@ fun proxy() {
 	io.Copy(conn, remoteconnection)
 }
 
-func respawnWhenError(conn net.Conn) {
-	defer conn.Close()
-	for {
-		var buf [128]byte
-		n, err := conn.Read(buf[:])
+// func respawnWhenError(conn net.Conn) {
+// 	defer conn.Close()
+// 	for {
+// 		var buf [128]byte
+// 		n, err := conn.Read(buf[:])
 
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		_ = conn.SetReadDeadline(time.Now().Add(5 * time.Second))
+// 		if err != nil {
+// 			log.Println(err)
+// 			return
+// 		}
+// 		_ = conn.SetReadDeadline(time.Now().Add(5 * time.Second))
 		
-		os.Stderr.Write(buf[:n])
-	}
-}
+// 		os.Stderr.Write(buf[:n])
+// 	}
+// }
